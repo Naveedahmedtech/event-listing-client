@@ -1,0 +1,84 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background-light: #f8fafc;
+  --surface-light: #ffffff;
+  --text-primary-light: #111827;
+  --text-secondary-light: #4b5563;
+  --primary-light: #2563eb;
+  --primary-hover-light: #1d4ed8;
+  --secondary-light: #6b7280;
+  --secondary-hover-light: #4b5563;
+  --accent-light: #22c55e;
+  --accent-hover-light: #16a34a;
+  --error-light: #dc2626;
+  --error-hover-light: #b91c1c;
+  --button-light: #3b82f6;
+  --button-hover-light: #2563eb;
+  --border-light: #e5e7eb;
+
+  --background-dark: #0f172a;
+  --surface-dark: #1e293b;
+  --text-primary-dark: #f9fafb;
+  --text-secondary-dark: #94a3b8;
+  --primary-dark: #3b82f6;
+  --primary-hover-dark: #1e40af;
+  --secondary-dark: #64748b;
+  --secondary-hover-dark: #475569;
+  --accent-dark: #16a34a;
+  --accent-hover-dark: #15803d;
+  --error-dark: #ef4444;
+  --error-hover-dark: #dc2626;
+  --button-dark: #3b82f6;
+  --button-hover-dark: #2563eb;
+  --border-dark: #334155;
+}
+
+.light {
+  --background: var(--background-light);
+  --surface: var(--surface-light);
+  --text-primary: var(--text-primary-light);
+  --text-secondary: var(--text-secondary-light);
+  --primary: var(--primary-light);
+  --primary-hover: var(--primary-hover-light);
+  --secondary: var(--secondary-light);
+  --secondary-hover: var(--secondary-hover-light);
+  --accent: var(--accent-light);
+  --accent-hover: var(--accent-hover-light);
+  --error: var(--error-light);
+  --error-hover: var(--error-hover-light);
+  --button: var(--button-light);
+  --button-hover: var(--button-hover-light);
+  --border: var(--border-light);
+}
+
+.dark {
+  --background: var(--background-dark);
+  --surface: var(--surface-dark);
+  --text-primary: var(--text-primary-dark);
+  --text-secondary: var(--text-secondary-dark);
+  --primary: var(--primary-dark);
+  --primary-hover: var(--primary-hover-dark);
+  --secondary: var(--secondary-dark);
+  --secondary-hover: var(--secondary-hover-dark);
+  --accent: var(--accent-dark);
+  --accent-hover: var(--accent-hover-dark);
+  --error: var(--error-dark);
+  --error-hover: var(--error-hover-dark);
+  --button: var(--button-dark);
+  --button-hover: var(--button-hover-dark);
+  --border: var(--border-dark);
+}
+
+body {
+  background-color: var(--background);
+  color: var(--text-primary);
+  scroll-behavior: smooth;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+
