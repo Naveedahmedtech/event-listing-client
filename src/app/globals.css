@@ -3,37 +3,39 @@
 @tailwind utilities;
 
 :root {
-  --background-light: #f8fafc;
-  --surface-light: #ffffff;
-  --text-primary-light: #111827;
-  --text-secondary-light: #4b5563;
-  --primary-light: #2563eb;
-  --primary-hover-light: #1d4ed8;
-  --secondary-light: #6b7280;
+  /* Light Theme */
+  --background-light: #fefefe;
+  --surface-light: #f4f4f5;
+  --text-primary-light: #1f2937;
+  --text-secondary-light: #6b7280;
+  --primary-light: #ff4500; /* Vibrant Orange for CTAs */
+  --primary-hover-light: #e03d00;
+  --secondary-light: #64748b;
   --secondary-hover-light: #4b5563;
-  --accent-light: #22c55e;
-  --accent-hover-light: #16a34a;
-  --error-light: #dc2626;
+  --accent-light: #10b981; /* Fresh Green for Highlights */
+  --accent-hover-light: #059669;
+  --error-light: #dc2626; /* Red for Warnings/Errors */
   --error-hover-light: #b91c1c;
-  --button-light: #3b82f6;
-  --button-hover-light: #2563eb;
-  --border-light: #e5e7eb;
+  --button-light: #2563eb; /* Blue for Buttons */
+  --button-hover-light: #1d4ed8;
+  --border-light: #e2e8f0;
 
-  --background-dark: #0f172a;
-  --surface-dark: #1e293b;
-  --text-primary-dark: #f9fafb;
-  --text-secondary-dark: #94a3b8;
-  --primary-dark: #3b82f6;
-  --primary-hover-dark: #1e40af;
-  --secondary-dark: #64748b;
-  --secondary-hover-dark: #475569;
-  --accent-dark: #16a34a;
-  --accent-hover-dark: #15803d;
-  --error-dark: #ef4444;
-  --error-hover-dark: #dc2626;
-  --button-dark: #3b82f6;
-  --button-hover-dark: #2563eb;
-  --border-dark: #334155;
+  /* Dark Theme */
+  --background-dark: #1a1a2e; /* Deep Blue for Immersion */
+  --surface-dark: #24243e; /* Softer Dark Surface */
+  --text-primary-dark: #eaeaea;
+  --text-secondary-dark: #a3a3a3;
+  --primary-dark: #ff6700; /* Vibrant Orange for CTAs */
+  --primary-hover-dark: #e65a00;
+  --secondary-dark: #8892b0;
+  --secondary-hover-dark: #55677d;
+  --accent-dark: #10b981; /* Vibrant Green for Highlights */
+  --accent-hover-dark: #059669;
+  --error-dark: #f87171; /* Softer Red for Warnings/Errors */
+  --error-hover-dark: #e11d48;
+  --button-dark: #2563eb; /* Blue for Buttons */
+  --button-hover-dark: #1d4ed8;
+  --border-dark: #374151;
 }
 
 .light {
@@ -80,5 +82,3 @@ body {
   margin: 0;
   padding: 0;
 }
-
-

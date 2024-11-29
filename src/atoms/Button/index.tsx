@@ -1,4 +1,3 @@
-'use client';
 
 import React from 'react';
 
@@ -23,10 +22,10 @@ const Button: React.FC<ButtonProps> = ({
         }`;
 
     const variantStyles = {
-        primary: `bg-primary text-textPrimary hover:bg-primaryHover focus:ring-primaryHover shadow-sm`,
-        secondary: `bg-secondary text-textSecondary hover:bg-secondaryHover focus:ring-secondaryHover shadow-sm`,
-        accent: `bg-accent text-textPrimary hover:bg-accentHover focus:ring-accentHover shadow-sm`,
-        danger: `bg-error text-textPrimary hover:bg-errorHover focus:ring-errorHover shadow-sm`,
+        primary: `bg-primary text-white hover:bg-primaryHover focus:ring-primaryHover shadow-sm`,
+        secondary: `bg-secondary text-white hover:bg-secondaryHover focus:ring-secondaryHover shadow-sm`,
+        accent: `bg-accent text-white hover:bg-accentHover focus:ring-accentHover shadow-sm`,
+        danger: `bg-error text-white hover:bg-errorHover focus:ring-errorHover shadow-sm`,
     };
 
     return (

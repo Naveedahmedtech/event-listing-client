@@ -1,6 +1,5 @@
-import CounterTemplate from '@/templates/counter'
 import { Metadata } from 'next';
-import React from 'react'
+import CounterTemplate from '@/templates/counter'
 
 export const metadata: Metadata = {
     title: "Counter Page",

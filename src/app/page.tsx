@@ -1,10 +1,7 @@
-import Link from "next/link";
+import HomePage from "@/templates/home";
 
 export default function Home() {
   return (
-    <div>
-      Hello
-      <Link href={'/counter'}>Counter</Link>
-    </div>
+    <HomePage />
   );
 }
