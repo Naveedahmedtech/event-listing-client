@@ -18,9 +18,20 @@ const SearchBar: React.FC<SearchBarProps> = ({
     cityOptions,
 }) => {
     return (
-        <div className="flex flex-col lg:flex-row lg:items-center lg:space-x-6 w-full max-w-xl lg:px-6">
-            <SearchInput value={searchQuery} onChange={onSearchChange} />
-            <CitySelector options={cityOptions} value={selectedCity} onChange={onCityChange} />
+        <div className="flex flex-col lg:flex-row lg:items-center gap-4 lg:gap-6 w-full max-w-xl px-4 sm:px-0 lg:px-6">
+            {/* Search Input */}
+            <SearchInput
+                value={searchQuery}
+                onChange={onSearchChange}
+                className="flex-1 w-full"
+            />
+            {/* City Selector */}
+            <CitySelector
+                options={cityOptions}
+                value={selectedCity}
+                onChange={onCityChange}
+                className="flex-1 w-full lg:w-auto"
+            />
         </div>
     );
 };
