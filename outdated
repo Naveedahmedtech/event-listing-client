@@ -1,0 +1,5 @@
+@reduxjs/toolkit                        2.3.0                        2.4.0    2.4.0  node_modules/@reduxjs/toolkit  web
+@types/node                           20.17.8                      20.17.9  22.10.1  node_modules/@types/node       web
+eslint                                 8.57.1                       8.57.1   9.15.0  node_modules/eslint            web
+react             19.0.0-rc-66855b96-20241106  19.0.0-rc-66855b96-20241106   18.3.1  node_modules/react             web
+react-dom         19.0.0-rc-66855b96-20241106  19.0.0-rc-66855b96-20241106   18.3.1  node_modules/react-dom         web
