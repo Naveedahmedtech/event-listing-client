@@ -3,11 +3,14 @@ import EventCard from '@/molecules/Card/EventCard';
 
 interface EventsGridProps {
     events: {
-        id: number;
+        id: string;
         title: string;
-        description: string;
         date: string;
-        imageUrl: string;
+        location: string;
+        category: string;
+        labels: string[];
+        predictedAttendance?: number;
+        venueName: string;
     }[];
 }
 
@@ -17,12 +20,15 @@ const EventsGrid: React.FC<EventsGridProps> = ({ events }) => {
             {events.map((event) => (
                 <EventCard
                     key={event.id}
+                    id={event.id}
                     title={event.title}
-                    description={event.description}
                     date={event.date}
-                    imageUrl={event.imageUrl}
-                    onBuyTickets={() => console.log(`Buy Tickets for ${event.title}`)}
-                    onLearnMore={() => console.log(`Learn More about ${event.title}`)}
+                    location={event.location}
+                    category={event.category}
+                    labels={event.labels}
+                    predictedAttendance={event.predictedAttendance}
+                    venueName={event.venueName}
+                    onAddToCalendar={() => console.log(`Added to calendar: ${event.title}`)}
                 />
             ))}
         </div>

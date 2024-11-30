@@ -1,19 +1,95 @@
 'use client';
-import React from 'react';
+import React, { useMemo } from 'react';
 import HeroSection from '@/organisms/HeroSection';
 import Heading from '@/atoms/Text/Heading';
 import EventsGrid from '@/organisms/EventsGrid';
 import CallToAction from '@/organisms/CallToAction';
-import { events } from '@/mock';
+import { useGetEventsQuery } from '@/redux/api/predictHQ';
+import useGeolocation from '@/hooks/useGeolocation';
+import Loading from '@/components/Loading';
 
 const HomePage: React.FC = () => {
+    const { location, error, loading: locationLoading, permissionDenied, retryPermission } = useGeolocation();
+
+    const radius = 5;
+    const unit = 'km';
+    const within = location
+        ? `${radius}${unit}@${location.latitude},${location.longitude}`
+        : undefined;
+
+    const { data, error: eventsError, isLoading } = useGetEventsQuery({
+        limit: 6,
+        country: location?.countryCode || 'pk',
+        within: within,
+    });
+
+    const isLocationLoading = locationLoading || isLoading;
+
+    const events = useMemo(() => {
+        return data?.results?.map((event: any) => ({
+            id: event.id,
+            title: event.title,
+            date: event.start,
+            location: event.geo?.address?.formatted_address || 'Location not available',
+            category: event.category,
+            labels: event.labels,
+            predictedAttendance: event.phq_attendance,
+            venueName: event.entities?.find((e: any) => e.type === 'venue')?.name || 'Location information to be confirmed',
+        })) || [];
+    }, [data]);
+
+    if (isLocationLoading) {
+        return (
+            <div className="container mx-auto px-4 py-8">
+                <HeroSection />
+                <Heading size="large" className="text-center text-textPrimary mt-8">Upcoming Events</Heading>
+                <div className="text-center my-8">
+                    <Loading />
+                </div>
+            </div>
+        );
+    }
+
     return (
         <div className="container mx-auto px-4 py-8">
             <HeroSection />
-            <Heading size="large" className="text-center text-textPrimary my-8">
+            <Heading size="large" className="text-center text-textPrimary mt-8">
                 Upcoming Events
             </Heading>
-            <EventsGrid events={events} />
+            {!isLocationLoading && !eventsError && data && events.length === 0 && (
+                <p className="text-center mb-8">No events found.</p>
+            )}
+            {eventsError && <p className="text-center mb-8">Error fetching events</p>}
+            {data && events.length > 0 && (
+                <>
+                    {location && (
+                        <p className="text-center mb-8">
+                            Showing events near: {location.city}, {location.country}
+                        </p>
+                    )}
+                    <EventsGrid events={events} />
+                </>
+            )}
+            {error && (
+                <div className="text-center mb-8">
+                    <p>We were unable to fetch your location.</p>
+                    {permissionDenied ? (
+                        <>
+                            <p>
+                                Geolocation permission has been denied. Please enable location access in your browser settings.
+                            </p>
+                            <button
+                                onClick={retryPermission}
+                                className="w-full py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+                            >
+                                Retry Location Access
+                            </button>
+                        </>
+                    ) : (
+                        <p>Please enable location access to get personalized event recommendations.</p>
+                    )}
+                </div>
+            )}
             <CallToAction />
         </div>
     );

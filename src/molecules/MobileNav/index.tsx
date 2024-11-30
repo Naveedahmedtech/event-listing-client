@@ -10,6 +10,7 @@ interface MobileNavProps {
     selectedCity: any;
     onCityChange: (selectedOption: any) => void;
     cityOptions: { value: string; label: string }[];
+    closeMenu: () => void;
 }
 
 const MobileNav: React.FC<MobileNavProps> = ({
@@ -19,12 +20,13 @@ const MobileNav: React.FC<MobileNavProps> = ({
     selectedCity,
     onCityChange,
     cityOptions,
+    closeMenu,
 }) => {
     if (!isOpen) return null;
 
     return (
         <div className="lg:hidden fixed top-0 left-0 w-full h-screen bg-gradient-to-br from-background to-surface z-50 flex flex-col items-center justify-center space-y-8 px-6">
-            <NavLinksGroup />
+            <NavLinksGroup  closeMenu={closeMenu} />
             <SearchBar
                 searchQuery={searchQuery}
                 onSearchChange={onSearchChange}

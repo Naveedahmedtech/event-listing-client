@@ -43,7 +43,7 @@ const Header: React.FC = () => {
 
                 {/* Desktop Navigation */}
                 <nav className="hidden lg:flex items-center space-x-12">
-                    <NavLinksGroup />
+                    <NavLinksGroup  closeMenu={() => setIsMenuOpen(false)} />
                     <ActionGroup />
                 </nav>
             </div>
@@ -56,6 +56,7 @@ const Header: React.FC = () => {
                 selectedCity={selectedCity}
                 onCityChange={setSelectedCity}
                 cityOptions={cityOptions}
+                closeMenu={() => setIsMenuOpen(false)}
             />
         </header>
     );
