@@ -74,7 +74,7 @@ const HomePage: React.FC = () => {
                     {/* Show location message if available */}
                     
                     <p className="text-center mb-8">
-                        Showing events near: {(location?.city && location?.city ) || 'Unknown City'}, {(location?.country) || 'Unknown Country'}
+                        Showing events near: {(!location?.city && location?.city + ", " )} {(location?.country) || 'Unknown Country'}
                     </p>
                     <EventsGrid events={events} />
                 </>
