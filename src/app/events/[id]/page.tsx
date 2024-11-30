@@ -27,7 +27,7 @@ async function fetchEventData(eventId: string) {
 }
 
 // The main component that renders the event details
-const EventPage = async ({ params }: { params: { id: string } }) => {
+const EventPage = async ({ params }: any) => {
     const { id } = params; // Extract the event ID from the URL params
     
     try {
