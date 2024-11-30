@@ -12,6 +12,7 @@ const nextConfig: NextConfig = {
   env: {
     PREDICTHQ_API_ACCESS_TOKEN: "nGLVkytwyqFNpwm2Y1TQPa_ao_V7S_me5fYuRLNR",
     PREDICTHQ_API_URL: "https://api.predicthq.com/v1",
+    IPSTACK_ACCESS_TOKEN: "667b48f0640937c8783ce093e245c0b6",
   },
 };
 

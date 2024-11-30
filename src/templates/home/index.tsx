@@ -9,22 +9,28 @@ import useGeolocation from '@/hooks/useGeolocation';
 import Loading from '@/components/Loading';
 
 const HomePage: React.FC = () => {
-    const { location, error, loading: locationLoading, permissionDenied, retryPermission } = useGeolocation();
+    const { location, loading: locationLoading, permissionDenied, retryPermission } = useGeolocation();
 
     const radius = 5;
     const unit = 'km';
-    const within = location
-        ? `${radius}${unit}@${location.latitude},${location.longitude}`
+
+
+    // Use default location if permission is denied or location is unavailable
+    const within = (location)
+        ? `${radius}${unit}@${(location).latitude},${(location).longitude}`
         : undefined;
 
+    // Fetch events, pass `within` only if location is available or fallback location is set
     const { data, error: eventsError, isLoading } = useGetEventsQuery({
         limit: 6,
-        country: location?.countryCode || 'pk',
-        within: within,
+        country: (location?.countryCode) || 'pk',
+        ...(location ? { within } : {}),
     });
+
 
     const isLocationLoading = locationLoading || isLoading;
 
+    // Process event data
     const events = useMemo(() => {
         return data?.results?.map((event: any) => ({
             id: event.id,
@@ -56,40 +62,36 @@ const HomePage: React.FC = () => {
             <Heading size="large" className="text-center text-textPrimary mt-8">
                 Upcoming Events
             </Heading>
+
             {!isLocationLoading && !eventsError && data && events.length === 0 && (
                 <p className="text-center mb-8">No events found.</p>
             )}
+
             {eventsError && <p className="text-center mb-8">Error fetching events</p>}
+
             {data && events.length > 0 && (
                 <>
-                    {location && (
-                        <p className="text-center mb-8">
-                            Showing events near: {location.city}, {location.country}
-                        </p>
-                    )}
+                    {/* Show location message if available */}
+                    
+                    <p className="text-center mb-8">
+                        Showing events near: {(location?.city && location?.city ) || 'Unknown City'}, {(location?.country) || 'Unknown Country'}
+                    </p>
                     <EventsGrid events={events} />
                 </>
             )}
-            {error && (
-                <div className="text-center mb-8">
-                    <p>We were unable to fetch your location.</p>
-                    {permissionDenied ? (
-                        <>
-                            <p>
-                                Geolocation permission has been denied. Please enable location access in your browser settings.
-                            </p>
-                            <button
-                                onClick={retryPermission}
-                                className="w-full py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
-                            >
-                                Retry Location Access
-                            </button>
-                        </>
-                    ) : (
-                        <p>Please enable location access to get personalized event recommendations.</p>
-                    )}
+
+            {/* Retry location access if denied */}
+            {permissionDenied && (
+                <div className="text-center mt-8">
+                    <button
+                        onClick={retryPermission}
+                        className="w-full py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+                    >
+                        Retry Location Access
+                    </button>
                 </div>
             )}
+
             <CallToAction />
         </div>
     );
