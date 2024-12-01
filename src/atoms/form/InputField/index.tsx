@@ -15,7 +15,7 @@ const InputField: React.FC<InputFieldProps> = ({ label, value, onChange, placeho
                 type="text"
                 value={value}
                 onChange={onChange}
-                className="mt-2 p-2 border rounded-lg"
+                className="mt-2 p-2 border rounded-lg bg-surface"
                 placeholder={placeholder}
             />
         </div>

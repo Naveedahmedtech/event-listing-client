@@ -28,6 +28,7 @@ export default {
         button: "var(--button)",
         buttonHover: "var(--button-hover)",
         border: "var(--border)",
+        text: "var(--text)",
       },
     },
   },

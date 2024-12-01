@@ -19,6 +19,7 @@
   --button-light: #2563eb; /* Blue for Buttons */
   --button-hover-light: #1d4ed8;
   --border-light: #e2e8f0;
+  --text-light: #000;
 
   /* Dark Theme */
   --background-dark: #1a1a2e; /* Deep Blue for Immersion */
@@ -36,6 +37,8 @@
   --button-dark: #2563eb; /* Blue for Buttons */
   --button-hover-dark: #1d4ed8;
   --border-dark: #374151;
+  --text-dark: #FFFF;
+
 }
 
 .light {
@@ -54,6 +57,7 @@
   --button: var(--button-light);
   --button-hover: var(--button-hover-light);
   --border: var(--border-light);
+  --text: var(--text-light);
 }
 
 .dark {
@@ -72,6 +76,7 @@
   --button: var(--button-dark);
   --button-hover: var(--button-hover-dark);
   --border: var(--border-dark);
+  --text: var(--text-dark);
 }
 html,body {
   max-width: 100vw;
@@ -84,4 +89,8 @@ body {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+}
+
+input::placeholder {
+  color: #FFFF !important;
 }
