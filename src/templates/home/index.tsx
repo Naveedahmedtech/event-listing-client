@@ -9,7 +9,7 @@ import useGeolocation from '@/hooks/useGeolocation';
 import Loading from '@/components/Loading';
 
 const HomePage: React.FC = () => {
-    const { location, loading: locationLoading, permissionDenied, retryPermission } = useGeolocation();
+    const { location, loading: locationLoading } = useGeolocation();
 
     const radius = 5;
     const unit = 'km';
@@ -23,8 +23,8 @@ const HomePage: React.FC = () => {
     // Fetch events, pass `within` only if location is available or fallback location is set
     const { data, error: eventsError, isLoading } = useGetEventsQuery({
         limit: 6,
-        country: (location?.countryCode) || 'pk',
-        ...(location ? { within } : {}),
+        ...(location?.countryCode ? { country: location?.countryCode } : {}),
+        ...(location?.latitude && location?.longitude ? { within } : {}),
     });
 
 
@@ -72,24 +72,13 @@ const HomePage: React.FC = () => {
             {data && events.length > 0 && (
                 <>
                     {/* Show location message if available */}
-                    
+
                     <p className="text-center mb-8">
-                        Showing events near: {(!location?.city && location?.city + ", " )} {(location?.country) || 'Unknown Country'}
+                        {(location?.city && location?.country) && `Showing result near: ${location.city}, ${location.country}`}
+                        {location?.country && `Showing result in ${location.country}`}
                     </p>
                     <EventsGrid events={events} />
                 </>
-            )}
-
-            {/* Retry location access if denied */}
-            {permissionDenied && (
-                <div className="text-center mt-8">
-                    <button
-                        onClick={retryPermission}
-                        className="w-full py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
-                    >
-                        Retry Location Access
-                    </button>
-                </div>
             )}
 
             <CallToAction />

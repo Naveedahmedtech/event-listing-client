@@ -5,7 +5,6 @@ import Badge from '@/atoms/Badge';
 
 interface EventDetailsProps {
     title: string;
-    description: string;
     category: string;
     location: string;
     venueName: string;
@@ -17,7 +16,6 @@ interface EventDetailsProps {
 
 const EventDetails: React.FC<EventDetailsProps> = ({
     title,
-    description,
     category,
     venueName,
     venueAddress,
@@ -29,7 +27,6 @@ const EventDetails: React.FC<EventDetailsProps> = ({
         <div className="space-y-8">
             <div className="text-center">
                 <h2 className="text-4xl font-bold">{title}</h2>
-                <p className="mt-2 text-gray-600">{description}</p>
                 <div className="mt-4">
                     <Badge variant="info">{category}</Badge>
                 </div>

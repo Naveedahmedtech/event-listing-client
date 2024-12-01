@@ -4,7 +4,7 @@ const Loading: React.FC = () => {
     return (
         <div className="flex justify-center items-center h-full">
             <svg
-                className="animate-spin h-12 w-12 text-blue-600"
+                className="animate-spin h-12 w-12 text-primary"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
                 fill="none"

@@ -2,9 +2,9 @@ import { ENV } from '@/constants'; // Make sure ENV.IPSTACK_ACCESS_TOKEN is set 
 import { useState, useEffect } from 'react';
 
 interface LocationData {
-    latitude: number | null;
-    longitude: number | null;
-    city: string | null;
+    latitude?: number | null;
+    longitude?: number | null;
+    city?: string | null;
     country: string | null;
     countryCode: string | null;
 }
@@ -34,9 +34,9 @@ const useGeolocation = () => {
                                 setLocation({
                                     latitude,
                                     longitude,
-                                    city: data.address?.state || 'Unknown',
-                                    country: data.address?.country || 'Unknown',
-                                    countryCode: data.address?.country_code || 'Unknown',
+                                    city: data.address?.state,
+                                    country: data.address?.country,
+                                    countryCode: data.address?.country_code,
                                 });
                                 setLoading(false);
                             } catch (error) {
@@ -65,14 +65,11 @@ const useGeolocation = () => {
 
     const fetchIPLocation = async () => {
         try {
-            const response = await fetch(`http://api.ipstack.com/check?access_key=${ENV.IPSTACK_ACCESS_TOKEN}`); // Replace with your ipstack API key
+            const response = await fetch(`http://api.ipstack.com/check?access_key=${ENV.IPSTACK_ACCESS_TOKEN}`);
             const data = await response.json();
             setLocation({
-                latitude: parseFloat(data.latitude),
-                longitude: parseFloat(data.longitude),
-                city: data.city || 'Unknown',
-                country: data.country_name || 'Unknown',
-                countryCode: data.country_code || 'Unknown',
+                country: data.country_name,
+                countryCode: data.country_code,
             });
             setLoading(false);
         } catch (error) {
@@ -98,9 +95,9 @@ const useGeolocation = () => {
                     setLocation({
                         latitude,
                         longitude,
-                        city: data.address?.state || 'Unknown',
-                        country: data.address?.country || 'Unknown',
-                        countryCode: data.address?.country_code || 'Unknown',
+                        city: data.address?.state,
+                        country: data.address?.country,
+                        countryCode: data.address?.country_code,
                     });
                     setLoading(false);
                 } catch (error) {
