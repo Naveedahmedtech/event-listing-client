@@ -8,6 +8,8 @@ import ThemeToggle from '@/molecules/ThemeToggle';
 import Footer from '@/organisms/Footer';
 import { ReactNode } from 'react';
 import NextTopLoader from 'nextjs-toploader';
+import 'react-datepicker/dist/react-datepicker.css';
+import "@/assets/styles/datepicker.css";
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
