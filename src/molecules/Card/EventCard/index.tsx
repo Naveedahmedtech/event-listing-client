@@ -31,7 +31,7 @@ const EventCard: React.FC<EventCardProps> = ({
 }) => {
     const formattedDate = format(new Date(date), 'MMMM dd, yyyy');
 
-    // Generate the Google Calendar link (you can modify the calendar service as needed)
+    // Generate the Google Calendar link
     const googleCalendarLink = `https://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${encodeURIComponent(date)}&details=${encodeURIComponent(category)}&location=${encodeURIComponent(location)}`;
 
     return (

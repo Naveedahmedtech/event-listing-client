@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect } from 'react';
+import React from 'react';
 import EventDetails from '@/organisms/EventDetails';
 import Button from '@/atoms/Button';
 import Heading from '@/atoms/Text/Heading';
@@ -9,44 +9,8 @@ interface EventPageProps {
 }
 
 const EventDetailPage: React.FC<EventPageProps> = ({ event }) => {
-    // Fetch the event data using the event ID
-    // const { data: event, error, isLoading } = useGetEventQuery(eventId);
 
-    useEffect(() => {
-        if (event) {
-            console.log('Event Data:', event);
-        }
-    }, [event]);
 
-    // // Loading state handling
-    // if (isLoading) {
-    //     return (
-    //         <div className="container mx-auto px-4 py-8">
-    //             <Heading size="large" className="text-center text-textPrimary mt-8">
-    //                 Event Details
-    //             </Heading>
-    //             <div className="text-center my-8">
-    //                 <Loading />
-    //             </div>
-    //         </div>
-    //     );
-    // }
-
-    // // Error state handling
-    // if (error) {
-    //     return (
-    //         <div className="container mx-auto px-4 py-8">
-    //             <Heading size="large" className="text-center text-textPrimary mt-8">
-    //                 Event Details
-    //             </Heading>
-    //             <div className="text-center my-8">
-    //                 <p>Error fetching event data. Please try again later.</p>
-    //             </div>
-    //         </div>
-    //     );
-    // }
-
-    // Handling if event is not found
     if (!event) {
         return (
             <div className="container mx-auto px-4 py-8">
@@ -61,17 +25,20 @@ const EventDetailPage: React.FC<EventPageProps> = ({ event }) => {
     }
 
     // Event details rendering
-    const { title, description, category, geo, entities, start, end, labels } = event;
+    const { title, category, geo, entities, start, end, labels } = event;
 
     const venue = entities?.find((e: any) => e.type === 'venue');
     const venueName = venue?.name || 'Venue Name Not Available';
     const venueAddress = venue?.formatted_address || 'Venue Address Not Available';
 
+    // Generate the Google Calendar link
+    const googleCalendarLink = `https://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${encodeURIComponent(start)}&details=${encodeURIComponent(category)}&location=${encodeURIComponent(geo?.address?.formatted_address)}`;
+
+
     return (
         <div className="container mx-auto px-4 py-8">
             <EventDetails
                 title={title}
-                description={description}
                 category={category}
                 location={geo?.address?.formatted_address || 'Location Not Available'}
                 venueName={venueName}
@@ -81,7 +48,15 @@ const EventDetailPage: React.FC<EventPageProps> = ({ event }) => {
                 labels={labels || []}
             />
             <div className="mt-8 text-center">
-                <Button onClick={() => console.log('Added to calendar')}>Add to Calendar</Button>
+                <Button
+                    variant="primary"
+                    className="w-full py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+                    href={googleCalendarLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    Add to Calendar
+                </Button>
             </div>
         </div>
     );

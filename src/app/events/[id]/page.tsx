@@ -1,9 +1,7 @@
-// Import necessary dependencies
 import { ENV } from "@/constants";
 import EventDetailPage from "@/templates/eventDetails";
 import { Metadata } from "next";
 
-// Metadata for the page
 export const metadata: Metadata = {
     title: "Explore Event Details - Eventify Yours",
     description: "Explore detailed information about various events, including venue, schedule, and more.",
@@ -14,7 +12,7 @@ async function fetchEventData(eventId: string) {
     const res = await fetch(`https://api.predicthq.com/v1/events?id=${eventId}`, {
         method: 'GET',
         headers: {
-            'Authorization': `Bearer ${ENV.PREDICTHQ_API_ACCESS_TOKEN}`, // Replace with your actual API key
+            'Authorization': `Bearer ${ENV.PREDICTHQ_API_ACCESS_TOKEN}`, 
         },
     });
 
@@ -26,12 +24,11 @@ async function fetchEventData(eventId: string) {
     return data?.results?.[0];
 }
 
-// The main component that renders the event details
 const EventPage = async ({ params }: any) => {
-    const { id } = params; // Extract the event ID from the URL params
+    const { id } = params;
     
     try {
-        const event = await fetchEventData(id); // Fetch the event data
+        const event = await fetchEventData(id); 
         return (
             <div className="container mx-auto px-4 py-8">
                 <EventDetailPage event={event} />

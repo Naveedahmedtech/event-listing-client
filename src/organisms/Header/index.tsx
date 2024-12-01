@@ -5,7 +5,7 @@ import Logo from '@/atoms/Logo';
 import NavLinksGroup from '@/molecules/NavLinksGroup';
 import ActionGroup from '@/molecules/HeaderActionGroup';
 import MenuToggle from '@/atoms/Button/MenuToggle';
-import SearchBar from '@/molecules/SearchBar';
+// import SearchBar from '@/molecules/SearchBar';
 import MobileNav from '@/molecules/MobileNav';
 
 const Header: React.FC = () => {
@@ -28,7 +28,7 @@ const Header: React.FC = () => {
                 <Logo />
 
                 {/* Search Bar - Visible only on desktop */}
-                <div className="hidden lg:block">
+                {/* <div className="hidden lg:block">
                     <SearchBar
                         searchQuery={searchQuery}
                         onSearchChange={(e) => setSearchQuery(e.target.value)}
@@ -36,7 +36,7 @@ const Header: React.FC = () => {
                         onCityChange={setSelectedCity}
                         cityOptions={cityOptions}
                     />
-                </div>
+                </div> */}
 
                 {/* Menu Toggle */}
                 <MenuToggle isOpen={isMenuOpen} onToggle={() => setIsMenuOpen(!isMenuOpen)} />
