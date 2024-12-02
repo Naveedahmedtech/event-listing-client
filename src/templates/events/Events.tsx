@@ -7,7 +7,7 @@ import CallToAction from '@/organisms/CallToAction';
 import { useGetEventsQuery } from '@/redux/api/predictHQ';
 import Loading from '@/components/Loading';
 import Pagination from '@/components/Pagination';  // Import Pagination component
-import { locations, categories } from "@/mock"
+import { locations, predicthqCategories } from "@/mock"
 
 const Events: React.FC = () => {
     const [searchQuery, setSearchQuery] = useState('');
@@ -25,7 +25,7 @@ const Events: React.FC = () => {
         params = {
             limit: 12, // Set default limit
             offset,
-            query: searchQuery, // Use search query for filtering events by title
+            q: searchQuery, // Use search query for filtering events by title
         };
 
         // Add categories filter if selected
@@ -37,6 +37,8 @@ const Events: React.FC = () => {
         if (selectedLocation.length > 0) {
             params.country = selectedLocation.map((item: any) => item.value).join(',');
         }
+
+        console.log("dateRange", dateRange.start)
 
         // Add date range filter if selected
         if (dateRange.start && dateRange.end) {
@@ -112,29 +114,31 @@ const Events: React.FC = () => {
                 All Events
             </Heading>
 
-            {!isLoading && !eventsError && data && events.length === 0 && (
+            {/* Event Filter */}
+            <EventFilter
+                searchQuery={searchQuery}
+                setSearchQuery={setSearchQuery}
+                selectedCategory={selectedCategory}
+                setSelectedCategory={setSelectedCategory}
+                selectedLocation={selectedLocation}
+                setSelectedLocation={setSelectedLocation}
+                dateRange={dateRange}
+                setDateRange={setDateRange}
+                onApplyFilters={handleApplyFilters}
+                locations={locations}
+                categories={predicthqCategories}
+                handleStartDateChange={handleStartDateChange}
+                handleEndDateChange={handleEndDateChange}
+            />
+
+            {events.length === 0 && (
                 <p className="text-center mb-8">No events found.</p>
             )}
+
             {eventsError && <p className="text-center mb-8">Error fetching events</p>}
 
             {data && events.length > 0 && (
                 <>
-                    {/* Event Filter */}
-                    <EventFilter
-                        searchQuery={searchQuery}
-                        setSearchQuery={setSearchQuery}
-                        selectedCategory={selectedCategory}
-                        setSelectedCategory={setSelectedCategory}
-                        selectedLocation={selectedLocation}
-                        setSelectedLocation={setSelectedLocation}
-                        dateRange={dateRange}
-                        setDateRange={setDateRange}
-                        onApplyFilters={handleApplyFilters}
-                        locations={locations}
-                        categories={categories}
-                        handleStartDateChange={handleStartDateChange}
-                        handleEndDateChange={handleEndDateChange}
-                    />
                     <EventGrid events={events} />
 
                     {/* Pagination */}

@@ -2,8 +2,7 @@ import MultiSelect from '@/atoms/form/MultiSelect';
 import SearchInput from '@/atoms/form/SearchInput';
 import Tabs from '@/atoms/Tabs';
 import React from 'react';
-import ReactDatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
+// import ReactDatePicker from 'react-datepicker';
 
 interface FilterPanelProps {
     searchQuery: string;
@@ -28,9 +27,9 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
     setSelectedCategory,
     selectedLocation,
     setSelectedLocation,
-    dateRange,
-    handleStartDateChange,
-    handleEndDateChange,
+    // dateRange,
+    // handleStartDateChange,
+    // handleEndDateChange,
     onApplyFilters,
     locations,
     categories,
@@ -92,7 +91,7 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
             </div>
 
             {/* Date Range Inputs */}
-            <div className="flex gap-6">
+            {/* <div className="flex gap-6">
                 <div className="flex-1">
                     <h4 className="text-lg font-semibold mb-2">Start Date</h4>
                     <ReactDatePicker
@@ -115,7 +114,7 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
                         calendarClassName="custom-calendar"
                     />
                 </div>
-            </div>
+            </div> */}
         </div>
     );
 };

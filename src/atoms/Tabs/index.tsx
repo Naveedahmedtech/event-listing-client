@@ -9,7 +9,7 @@ interface TabsProps {
 
 const Tabs: React.FC<TabsProps> = ({ options, onSelect, selectedOption }) => {
   return (
-    <div className="flex space-x-4 mb-6">
+    <div className="flex flex-wrap justify-center sm:justify-start space-x-2 sm:space-x-4 mb-6 space-y-2">
       {options.map((option) => (
         <Tab
           key={option}

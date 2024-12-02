@@ -75,7 +75,7 @@ const HomePage: React.FC = () => {
 
                     <p className="text-center mb-8">
                         {(location?.city && location?.country) && `Showing result near: ${location.city}, ${location.country}`}
-                        {location?.country && `Showing result in ${location.country}`}
+                        {(!location?.city && location?.country) && `Showing result in ${location.country}`}
                     </p>
                     <EventsGrid events={events} />
                 </>
