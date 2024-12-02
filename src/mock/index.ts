@@ -49,11 +49,18 @@ export const events = [
   },
 ];
 
-export const categories = [
-  { value: "tech", label: "Tech" },
-  { value: "music", label: "Music" },
-  { value: "business", label: "Business" },
-  { value: "art", label: "Art" },
+export const predicthqCategories = [
+  { value: "school-holidays", label: "School Holidays" },
+  { value: "public-holidays", label: "Public Holidays" },
+  { value: "observances", label: "Observances" },
+  { value: "politics", label: "Politics" },
+  { value: "conferences", label: "Conferences" },
+  { value: "expos", label: "Expos" },
+  { value: "concerts", label: "Concerts" },
+  { value: "festivals", label: "Festivals" },
+  { value: "performing-arts", label: "Performing Arts" },
+  { value: "sports", label: "Sports" },
+  { value: "community", label: "Community" },
 ];
 
 export const locations = [
