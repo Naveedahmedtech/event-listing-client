@@ -8,7 +8,6 @@ const FooterNavigation: React.FC = () => {
         { href: '/', label: 'Home' },
         { href: '/events', label: 'Events' },
         { href: '/about', label: 'About Us' },
-        { href: '/contact', label: 'Contact' },
     ];
 
     return (

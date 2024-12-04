@@ -7,12 +7,13 @@ import CallToAction from '@/organisms/CallToAction';
 import { useGetEventsQuery } from '@/redux/api/predictHQ';
 import Loading from '@/components/Loading';
 import Pagination from '@/components/Pagination';  // Import Pagination component
-import { locations, predicthqCategories } from "@/mock"
+import { locations, predicthqCategories, quickPlatforms } from "@/mock"
 
 const Events: React.FC = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedCategory, setSelectedCategory] = useState<any[]>([]); // Multi-select categories
     const [selectedLocation, setSelectedLocation] = useState<any[]>([]); // Multi-select locations
+    const [selectPlatform, setSelectPlatform] = useState<string>(quickPlatforms[0] || 'All');
     const [offset, setOffset] = useState(0); // Pagination offset
     const [dateRange, setDateRange] = useState<{ start: string; end: string }>({
         start: '',
@@ -25,29 +26,42 @@ const Events: React.FC = () => {
         params = {
             limit: 12, // Set default limit
             offset,
-            q: searchQuery, // Use search query for filtering events by title
         };
-
+    
+        // Combine selected platform and user search query in the 'q' key
+        const queries = [];
+        if (selectPlatform && selectPlatform !== 'All') {
+            queries.push(selectPlatform); // Add platform to the query if not "All"
+        }
+        if (searchQuery) {
+            queries.push(searchQuery); // Add user search query
+        }
+        if (queries.length > 0) {
+            params.q = queries.join(' '); // Combine with a space or any separator as needed
+        }
+    
         // Add categories filter if selected
         if (selectedCategory.length > 0) {
             params.category = selectedCategory.map((item: any) => item.value).join(',');
         }
-
+    
         // Add locations filter if selected
         if (selectedLocation.length > 0) {
             params.country = selectedLocation.map((item: any) => item.value).join(',');
         }
-
-        console.log("dateRange", dateRange.start)
-
+    
         // Add date range filter if selected
         if (dateRange.start && dateRange.end) {
             params['start.gte'] = dateRange.start;
             params['end.lte'] = dateRange.end;
         }
-
+    
         return params;
     };
+
+    console.log("dateRange", dateRange)
+    
+    
 
     // Fetch event data from the API with the applied filters
     const { data, isLoading, error: eventsError } = useGetEventsQuery(buildQueryParams());
@@ -90,6 +104,8 @@ const Events: React.FC = () => {
     // Handle page change for pagination
     const handlePageChange = (newOffset: number) => {
         setOffset(newOffset);  // Update the offset based on the selected page
+        buildQueryParams();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
     // Apply filters when the search query or selected filters change
@@ -129,6 +145,9 @@ const Events: React.FC = () => {
                 categories={predicthqCategories}
                 handleStartDateChange={handleStartDateChange}
                 handleEndDateChange={handleEndDateChange}
+                quickPlatforms={quickPlatforms}
+                setSelectPlatform={setSelectPlatform}
+                selectedPlatform={selectPlatform}
             />
 
             {events.length === 0 && (

@@ -14,7 +14,7 @@ const SearchInput: React.FC<SearchInputProps> = ({ value, onChange, className })
             <FaSearch className="absolute top-3 left-3 text-textSecondary" />
             <input
                 type="text"
-                placeholder="Search..."
+                placeholder="type what you are looking for.."
                 value={value}
                 onChange={onChange}
                 className={clsx(

@@ -11,10 +11,13 @@ interface EventFilterProps {
     dateRange: { start: string; end: string }; // Date range
     setDateRange: (value: { start: string; end: string }) => void; // Setter for date range
     onApplyFilters: () => void;
+    setSelectPlatform: (platform: string) => void;
     handleStartDateChange: (date: Date | null) => void;
     handleEndDateChange: (date: Date | null) => void;
     locations:  { value: string; label: string }[],
     categories:  { value: string; label: string }[],
+    quickPlatforms: string[],
+    selectedPlatform: string;
 }
 
 const EventFilter: React.FC<EventFilterProps> = ({
@@ -30,7 +33,10 @@ const EventFilter: React.FC<EventFilterProps> = ({
     locations,
     categories,
     handleStartDateChange,
-    handleEndDateChange
+    handleEndDateChange,
+    quickPlatforms,
+    setSelectPlatform,
+    selectedPlatform
 }) => {
     return (
         <div className="mb-8">
@@ -48,6 +54,9 @@ const EventFilter: React.FC<EventFilterProps> = ({
                 categories={categories}
                 handleStartDateChange={handleStartDateChange}
                 handleEndDateChange={handleEndDateChange}
+                quickPlatforms={quickPlatforms}
+                setSelectPlatform={setSelectPlatform}
+                selectedPlatform={selectedPlatform}
             />
         </div>
     );
