@@ -23,7 +23,7 @@ const MultiSelect: React.FC<MultiSelectProps> = ({ options, value, onChange, pla
             styles={{
                 control: (provided) => ({
                     ...provided,
-                    borderColor: 'var(--primary)', // Custom border color
+                    borderColor: 'var(--text)', // Custom border color
                     backgroundColor: 'var(--surface)', // Background color for the control
                     borderRadius: '8px',
                     padding: '5px',

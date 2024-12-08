@@ -69,7 +69,7 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
 
             {/* Platform Tabs */}
             <div className="space-y-2">
-                <h4 className="text-xl font-semibold mb-2 text-textPrimary">Related Platforms</h4>
+                {/* <h4 className="text-xl font-semibold mb-2 text-textPrimary">Related Platforms</h4> */}
                 <Tabs
                     options={quickPlatforms}
                     selectedOption={selectedPlatform}

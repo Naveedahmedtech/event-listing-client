@@ -21,8 +21,14 @@
     "paths": {
       "@/*": ["./src/*"]
     },
-    "noImplicitAny": true,
+    "noImplicitAny": true
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/molecules/ContactCTA"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "src/molecules/ContactCTA"
+  ],
   "exclude": ["node_modules"]
 }

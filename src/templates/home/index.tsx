@@ -10,7 +10,6 @@ import Loading from '@/components/Loading';
 
 const HomePage: React.FC = () => {
     const { location, loading: locationLoading } = useGeolocation();
-
     const radius = 5;
     const unit = 'km';
 

@@ -2,20 +2,28 @@
 
 import React from 'react';
 import Link from 'next/link';
+import { useAppSelector } from '@/hooks/redux';
 
 interface NavLinksGroupProps {
     closeMenu: () => void;
 }
 
 const NavLinksGroup: React.FC<NavLinksGroupProps> = ({ closeMenu }) => {
+    const authState = useAppSelector((state) => state.auth);
+
+    // Define the navigation links
     const links = [
-        { href: '/', label: 'Home' },
         { href: '/events', label: 'Events' },
         { href: '/about', label: 'About Us' },
     ];
 
+    // Add "Home" link only if the user is not authenticated
+    if (!authState.isAuthenticated) {
+        links.unshift({ href: '/', label: 'Home' });
+    }
+
     const handleLinkClick = () => {
-        closeMenu(); 
+        closeMenu();
     };
 
     return (

@@ -32,18 +32,21 @@ const EventCard: React.FC<EventCardProps> = ({
     const formattedDate = format(new Date(date), 'MMMM dd, yyyy');
 
     // Generate the Google Calendar link
-    const googleCalendarLink = `https://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${encodeURIComponent(date)}&details=${encodeURIComponent(category)}&location=${encodeURIComponent(location)}`;
+    const googleCalendarLink = `https://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(
+        title
+    )}&dates=${encodeURIComponent(date)}&details=${encodeURIComponent(
+        category
+    )}&location=${encodeURIComponent(location)}`;
 
     return (
-        <div className="bg-surface p-6 rounded-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all flex flex-col">
-
+        <div className="bg-surface p-6 rounded-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all flex flex-col space-y-4">
             {/* Event Title */}
-            <Heading size="medium" className="text-textPrimary mb-4">
+            <Heading size="medium" className="text-textPrimary mb-2">
                 {title}
             </Heading>
 
             {/* Badges for Important Details */}
-            <div className="flex flex-wrap gap-2 mb-4">
+            <div className="flex flex-wrap gap-3">
                 <Badge variant="info" className="bg-blue-100 text-blue-800">
                     <strong>Date:</strong> {formattedDate}
                 </Badge>
@@ -67,7 +70,7 @@ const EventCard: React.FC<EventCardProps> = ({
 
             {/* Labels */}
             {labels.length > 0 && (
-                <div className="flex flex-wrap gap-2 mb-4">
+                <div className="flex flex-wrap gap-2">
                     {labels.map((label, index) => (
                         <Badge key={index} variant="neutral" className="bg-gray-100 text-gray-700">
                             {label}
@@ -81,19 +84,17 @@ const EventCard: React.FC<EventCardProps> = ({
                 <Button
                     onClick={onAddToCalendar}
                     variant="primary"
-                    className="w-full py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+                    className="w-full"
                     href={googleCalendarLink}
                     target="_blank"
                     rel="noopener noreferrer"
                 >
                     Add to Calendar
                 </Button>
-
-                <Link
-                    href={`events/${id}`}
-                    className="w-full py-2 bg-gray-200 text-gray-800 rounded-lg text-center hover:bg-gray-300 transition"
-                >
-                    Learn More
+                <Link href={`events/${id}`} className="w-full">
+                    <Button variant="secondary" className="w-full">
+                        Learn More
+                    </Button>
                 </Link>
             </div>
         </div>
