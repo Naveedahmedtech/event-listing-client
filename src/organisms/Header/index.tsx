@@ -13,6 +13,7 @@ import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import { setPreferences } from "@/redux/slices/preferencesSlice";
 import { setCredentials, clearCredentials } from "@/redux/slices/authSlice";
 import { useRouter } from "next/navigation";
+import { ENV } from "@/constants";
 
 const Header: React.FC = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -33,7 +34,7 @@ const Header: React.FC = () => {
 
     // Fetch user details
     const { data: userDetails, isLoading, refetch } = useFetchUserWithDetailsQuery({}, { skip: !!authState.isAuthenticated });
-console.log(userDetails)
+    console.log("ENV", ENV.APP_API_URL)
     // Logout mutation
     const [logout] = useLogoutMutation();
 
@@ -57,7 +58,7 @@ console.log(userDetails)
                     token: "your-token", // Replace with actual token logic
                 })
             );
-    
+
             // Extract and save preferences
             const preferences = userDetails.data.Preference?.[0] || {}; // Assuming there's only one preference object
             dispatch(
@@ -73,7 +74,7 @@ console.log(userDetails)
             );
         }
     }, [userDetails, dispatch]);
-    
+
 
     const handleLogout = async () => {
         try {
