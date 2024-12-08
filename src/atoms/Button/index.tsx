@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React from 'react';
 
 interface ButtonProps {
@@ -34,14 +35,14 @@ const Button: React.FC<ButtonProps> = ({
 
     if (href) {
         return (
-            <a
+            <Link
                 href={href}
                 target={target}
                 rel={rel}
                 className={`${baseStyles} ${variantStyles[variant]} ${className}`}
             >
                 {children}
-            </a>
+            </Link>
         );
     }
 

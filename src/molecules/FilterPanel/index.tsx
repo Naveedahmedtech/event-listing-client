@@ -2,7 +2,7 @@ import MultiSelect from '@/atoms/form/MultiSelect';
 import SearchInput from '@/atoms/form/SearchInput';
 import Tabs from '@/atoms/Tabs';
 import React from 'react';
-// import ReactDatePicker from 'react-datepicker';
+import ReactDatePicker from 'react-datepicker';
 
 interface FilterPanelProps {
     searchQuery: string;
@@ -14,10 +14,13 @@ interface FilterPanelProps {
     dateRange: { start: string; end: string };
     setDateRange: (value: { start: string; end: string }) => void;
     onApplyFilters: () => void;
+    setSelectPlatform: (platform:string) => void;
     locations: { value: string; label: string }[];
     categories: { value: string; label: string }[];
     handleStartDateChange: (date: Date | null) => void;
     handleEndDateChange: (date: Date | null) => void;
+    quickPlatforms: string[];
+    selectedPlatform: string;
 }
 
 const FilterPanel: React.FC<FilterPanelProps> = ({
@@ -27,12 +30,15 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
     setSelectedCategory,
     selectedLocation,
     setSelectedLocation,
-    // dateRange,
-    // handleStartDateChange,
-    // handleEndDateChange,
+    dateRange,
+    handleStartDateChange,
+    handleEndDateChange,
     onApplyFilters,
     locations,
     categories,
+    quickPlatforms,
+    setSelectPlatform,
+    selectedPlatform
 }) => {
     const handleCategoryChange = (selectedOptions: any) => {
         setSelectedCategory(selectedOptions);
@@ -44,7 +50,11 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
         onApplyFilters();
     };
 
-
+    const handlePlatformSelect = (platform: string) => {
+        setSelectPlatform(platform);
+        onApplyFilters(); // Apply filters when platform changes
+      };
+    
 
     return (
         <div className="mb-8 space-y-6">
@@ -59,11 +69,11 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
 
             {/* Platform Tabs */}
             <div className="space-y-2">
-                <h4 className="text-xl font-semibold mb-2 text-textPrimary">Platforms</h4>
+                {/* <h4 className="text-xl font-semibold mb-2 text-textPrimary">Related Platforms</h4> */}
                 <Tabs
-                    options={['All', 'Google', 'Facebook', 'Apple', 'GitHub', 'Amazon']}
-                    selectedOption="All"
-                    onSelect={() => { }} // Handle platform selection
+                    options={quickPlatforms}
+                    selectedOption={selectedPlatform}
+                    onSelect={handlePlatformSelect} 
                 />
             </div>
 
@@ -91,7 +101,7 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
             </div>
 
             {/* Date Range Inputs */}
-            {/* <div className="flex gap-6">
+            <div className="flex gap-6">
                 <div className="flex-1">
                     <h4 className="text-lg font-semibold mb-2">Start Date</h4>
                     <ReactDatePicker
@@ -114,7 +124,7 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
                         calendarClassName="custom-calendar"
                     />
                 </div>
-            </div> */}
+            </div>
         </div>
     );
 };

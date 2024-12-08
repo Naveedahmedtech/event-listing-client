@@ -19,7 +19,7 @@ const CallToAction: React.FC = () => {
                     Sign up to discover events tailored just for you, save your favorites, and get exclusive updates.
                 </p>
                 <Link
-                    href={'/signup'}
+                    href={'/auth/registration'}
                     className="bg-primary rounded-xl px-8 py-4 text-lg font-bold shadow-lg hover:shadow-xl"
                 >
                     Sign Up Now

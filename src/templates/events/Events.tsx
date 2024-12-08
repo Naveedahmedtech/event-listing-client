@@ -6,54 +6,101 @@ import EventGrid from '@/organisms/EventsGrid';
 import CallToAction from '@/organisms/CallToAction';
 import { useGetEventsQuery } from '@/redux/api/predictHQ';
 import Loading from '@/components/Loading';
-import Pagination from '@/components/Pagination';  // Import Pagination component
-import { locations, predicthqCategories } from "@/mock"
+import Pagination from '@/components/Pagination';
+import { locations, predicthqCategories, quickPlatforms as defaultQuickPlatforms } from '@/mock';
+import { useAppSelector } from '@/hooks/redux';
+import useGeolocation from '@/hooks/useGeolocation';
 
 const Events: React.FC = () => {
+    const authState = useAppSelector((state) => state.auth);
+    const preferences = useAppSelector((state) => state.preferences);
+
     const [searchQuery, setSearchQuery] = useState('');
-    const [selectedCategory, setSelectedCategory] = useState<any[]>([]); // Multi-select categories
-    const [selectedLocation, setSelectedLocation] = useState<any[]>([]); // Multi-select locations
-    const [offset, setOffset] = useState(0); // Pagination offset
+    const [selectedCategory, setSelectedCategory] = useState<any[]>([]);
+    const [selectedLocation, setSelectedLocation] = useState<any[]>([]);
+    const [offset, setOffset] = useState(0);
+    const [selectPlatform, setSelectPlatform] = useState('All');
     const [dateRange, setDateRange] = useState<{ start: string; end: string }>({
         start: '',
         end: '',
     });
 
-    let params: any;
+    const { location, loading: geoLoading } = useGeolocation();
+
+    // Add "For You" to quickPlatforms if user is logged in
+    const quickPlatforms = useMemo(() => {
+        if (authState.isAuthenticated) {
+            return ['For You', ...defaultQuickPlatforms];
+        }
+        return defaultQuickPlatforms;
+    }, [authState.isAuthenticated]);
+
+    // Default to "For You" if logged in, else "All"
+    useEffect(() => {
+        if (authState.isAuthenticated) {
+            setSelectPlatform('For You');
+        } else {
+            setSelectPlatform('All');
+        }
+    }, [authState.isAuthenticated]);
+
+    // Apply default country code if user is unauthenticated
+    useEffect(() => {
+        if (!authState.isAuthenticated && location?.countryCode) {
+            setSelectedLocation([{ value: location.countryCode, label: location.country }]);
+        }
+    }, [authState.isAuthenticated, location]);
+
     // Build query parameters for filtering events
     const buildQueryParams = () => {
-        params = {
-            limit: 12, // Set default limit
+        const params: any = {
+            limit: 12,
             offset,
-            q: searchQuery, // Use search query for filtering events by title
         };
 
-        // Add categories filter if selected
-        if (selectedCategory.length > 0) {
-            params.category = selectedCategory.map((item: any) => item.value).join(',');
-        }
+        if (selectPlatform === 'For You' && preferences) {
+            if (preferences.locations.length > 0) {
+                params.country = preferences.locations.join(',');
+            }
+            if (preferences.categories.length > 0) {
+                params.category = preferences.categories.join(',');
+            }
+            if (preferences.dateRange.startDate && preferences.dateRange.endDate) {
+                params['start.gte'] = preferences.dateRange.startDate;
+                params['end.lte'] = preferences.dateRange.endDate;
+            }
+        } else {
+            const queries = [];
+            if (selectPlatform && selectPlatform !== 'All') {
+                queries.push(selectPlatform);
+            }
+            if (searchQuery) {
+                queries.push(searchQuery);
+            }
+            if (queries.length > 0) {
+                params.q = queries.join(' ');
+            }
 
-        // Add locations filter if selected
-        if (selectedLocation.length > 0) {
-            params.country = selectedLocation.map((item: any) => item.value).join(',');
-        }
+            if (selectedCategory.length > 0) {
+                params.category = selectedCategory.map((item: any) => item.value).join(',');
+            }
 
-        console.log("dateRange", dateRange.start)
+            if (selectedLocation.length > 0) {
+                params.country = selectedLocation.map((item: any) => item.value).join(',');
+            }
 
-        // Add date range filter if selected
-        if (dateRange.start && dateRange.end) {
-            params['start.gte'] = dateRange.start;
-            params['end.lte'] = dateRange.end;
+            if (dateRange.start && dateRange.end) {
+                params['start.gte'] = dateRange.start;
+                params['end.lte'] = dateRange.end;
+            }
         }
 
         return params;
     };
 
-    // Fetch event data from the API with the applied filters
     const { data, isLoading, error: eventsError } = useGetEventsQuery(buildQueryParams());
 
     const handleApplyFilters = () => {
-        // Reset to the first page when applying filters
         setOffset(0);
     };
 
@@ -73,34 +120,38 @@ const Events: React.FC = () => {
         handleApplyFilters();
     };
 
-    // Transform event data to display
     const events = useMemo(() => {
-        return data?.results?.map((event: any) => ({
-            id: event.id,
-            title: event.title,
-            date: event.start,
-            location: event.geo?.address?.formatted_address || 'Location not available',
-            category: event.category,
-            labels: event.labels,
-            predictedAttendance: event.phq_attendance,
-            venueName: event.entities?.find((e: any) => e.type === 'venue')?.name || 'Location information to be confirmed',
-        })) || [];
+        return (
+            data?.results?.map((event: any) => ({
+                id: event.id,
+                title: event.title,
+                date: event.start,
+                location: event.geo?.address?.formatted_address || 'Location not available',
+                category: event.category,
+                labels: event.labels,
+                predictedAttendance: event.phq_attendance,
+                venueName:
+                    event.entities?.find((e: any) => e.type === 'venue')?.name ||
+                    'Location information to be confirmed',
+            })) || []
+        );
     }, [data]);
 
-    // Handle page change for pagination
     const handlePageChange = (newOffset: number) => {
-        setOffset(newOffset);  // Update the offset based on the selected page
+        setOffset(newOffset);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
-    // Apply filters when the search query or selected filters change
     useEffect(() => {
         handleApplyFilters();
     }, [searchQuery, selectedCategory, selectedLocation, dateRange]);
 
-    if (isLoading) {
+    if (isLoading || geoLoading) {
         return (
             <div className="container mx-auto px-4 py-8">
-                <Heading size="large" className="text-center text-textPrimary mt-8">All Events</Heading>
+                <Heading size="large" className="text-center text-textPrimary mt-8">
+                    All Events
+                </Heading>
                 <div className="text-center my-8">
                     <Loading />
                 </div>
@@ -114,7 +165,6 @@ const Events: React.FC = () => {
                 All Events
             </Heading>
 
-            {/* Event Filter */}
             <EventFilter
                 searchQuery={searchQuery}
                 setSearchQuery={setSearchQuery}
@@ -129,32 +179,30 @@ const Events: React.FC = () => {
                 categories={predicthqCategories}
                 handleStartDateChange={handleStartDateChange}
                 handleEndDateChange={handleEndDateChange}
+                quickPlatforms={quickPlatforms}
+                setSelectPlatform={setSelectPlatform}
+                selectedPlatform={selectPlatform}
             />
 
-            {events.length === 0 && (
-                <p className="text-center mb-8">No events found.</p>
-            )}
-
+            {events.length === 0 && <p className="text-center mb-8">No events found.</p>}
             {eventsError && <p className="text-center mb-8">Error fetching events</p>}
 
             {data && events.length > 0 && (
                 <>
                     <EventGrid events={events} />
-
-                    {/* Pagination */}
                     {(data.next || data.previous) && (
                         <Pagination
-                            currentPage={Math.floor(offset / 12) + 1}  // Calculate the current page number
-                            totalPages={Math.ceil(data.count / 12)}  // Total pages calculation based on count and limit
+                            currentPage={Math.floor(offset / 12) + 1}
+                            totalPages={Math.ceil(data.count / 12)}
                             onPageChange={handlePageChange}
-                            next={data.next}  // Pass the next URL to handle next page
-                            previous={data.previous}  // Pass the previous URL to handle previous page
+                            next={data.next}
+                            previous={data.previous}
                         />
                     )}
                 </>
             )}
 
-            <CallToAction />
+            {!authState.isAuthenticated && <CallToAction />}
         </div>
     );
 };

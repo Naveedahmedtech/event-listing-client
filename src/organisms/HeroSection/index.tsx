@@ -24,7 +24,7 @@ const HeroSection: React.FC = () => {
                                 Explore Events
                             </Button>
                         </Link>
-                        <Link href="/signup" passHref>
+                        <Link href="/auth/registration" passHref>
                             <Button className="bg-accent hover:bg-accentHover text-white px-8 py-4 font-bold rounded-md shadow-lg transition-transform transform hover:scale-105">
                                 Sign Up Now
                             </Button>
