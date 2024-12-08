@@ -119,6 +119,10 @@ console.log(userDetails)
                 onCityChange={setSelectedCity}
                 cityOptions={cityOptions}
                 closeMenu={() => setIsMenuOpen(false)}
+                onLogout={handleLogout}
+                isLoading={isLoading}
+                isAuthenticated={authState.isAuthenticated}
+                setIsMenuOpen={setIsMenuOpen}
             />
         </header>
     );
